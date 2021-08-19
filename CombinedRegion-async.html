@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE-edge">
+        <meta name="viewport" content="width = device-width, initial-scale=1.0">
+        <title>Front End</title>
+        <style>
+            :root {
+               @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:wght@300&display=swap');
+               font-family: "Poppins", sans-serif;
+               font-family: "Open Sans", sans-serif;
+            }
+
+            .container{
+               height:auto;
+               width:250px;
+               background-color:white;
+               border-radius:10px;
+               padding-bottom:6px;
+               box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+               display:inline-block;
+               margin-right: 16px;
+               margin-bottom:16px;
+               margin-top:5px;
+               transition: transform 0.3s;
+            }
+
+            .flag {
+                border-top-left-radius:10px;
+                border-top-right-radius:10px;
+                transition: transform 0.3s;
+            }
+
+            .details{
+                padding: 0 0 5px 10px;
+            }
+
+            .container:hover {
+                cursor: pointer;
+                transform: scale(1.05);
+                background-color: crimson;
+                color:white;
+                box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.5);
+            }
+
+            .flag:hover {
+                 cursor: pointer;
+                 transform : rotate(360deg);
+            }
+           
+        </style>
+    </head>
+    <body>
+        
+        <script>
+
+            async function asiaEurope(){
+                let combined = await Promise.all([fetch('https://restcountries.eu/rest/v2/region/asia'),fetch('https://restcountries.eu/rest/v2/region/europe')]);
+
+                let asia = await combined[0].json();
+                let europe = await combined[1].json();
+
+                let countries = [...asia,...europe];
+
+                countries.forEach((country) => createFlag(country));
+                return countries;
+
+                try{
+                    const msg = await asiaEurope();
+                    console.log(msg);
+                }catch(errMsg){
+                    console.log(errMsg);
+                }
+
+            }
+
+            asiaEurope();
+
+
+            function createFlag({name, flag, population, region, capital}){
+
+                const info = document.createElement("div");
+               info.setAttribute("class", "container");
+  
+                 info.innerHTML =` 
+                <div class="flag-container">
+                <img class="flag" src=${flag} width="250px" height="150px" />
+                </div>
+     
+                <div class="details">
+               <h3>${name}</h3>
+               <p><b>Population: </b>${population}</p>
+               <p><b>Region: </b>${region}</p>
+               <p><b>Capital: </b>${capital}</p>
+               </div>`;       
+               document.body.append(info);          
+               }
+        </script>       
+    </body>
+</html> 
