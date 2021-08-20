@@ -56,6 +56,7 @@
         <script>
 
             async function asiaEurope(){
+                try{
                 let combined = await Promise.all([fetch('https://restcountries.eu/rest/v2/region/asia'),fetch('https://restcountries.eu/rest/v2/region/europe')]);
 
                 let asia = await combined[0].json();
@@ -65,10 +66,7 @@
 
                 countries.forEach((country) => createFlag(country));
                 return countries;
-
-                try{
-                    const msg = await asiaEurope();
-                    console.log(msg);
+  
                 }catch(errMsg){
                     console.log(errMsg);
                 }
